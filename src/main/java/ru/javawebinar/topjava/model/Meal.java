@@ -3,15 +3,39 @@ package ru.javawebinar.topjava.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Meal {
-    private final LocalDateTime dateTime;
+    private static AtomicInteger idCounter = new AtomicInteger(0);
 
-    private final String description;
+    public int getId() {
+        return id;
+    }
 
-    private final int calories;
+    private final int id;
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCalories(int calories) {
+        this.calories = calories;
+    }
+
+    private  LocalDateTime dateTime;
+
+    private  String description;
+
+    private  int calories;
 
     public Meal(LocalDateTime dateTime, String description, int calories) {
+        synchronized (idCounter){
+            id = idCounter.getAndIncrement();
+        }
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
